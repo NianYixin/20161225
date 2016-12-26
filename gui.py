@@ -455,18 +455,39 @@ class MyApp(object):
         self.create_builtin_application(root)
 
     def _onleave(self,event):
+        if self._mouse_in_root(event.x_root,event.y_root):
+            self._hiding=False
+            print("leave P")
+            return
+        
         root_right=self.root.winfo_x()+self.root.winfo_width()
         if root_right<self.root.winfo_screenwidth():
+            self._hiding=False
             return
+        
         self.hide_in_edge()
         self.winclass.set_self_top(r"PM:v0.5@2016-12-25")
+        self._hiding=True
 
+        print('you should hide',self._hiding)
 
         
     def _onenter(self,event):
+        print('enter')
         if self._hiding==False:
             return
         self.emerge_from_edge()
+        
+    def _mouse_in_root(self,x,y):
+        w_edge=self.root.winfo_x()
+        e_edge=self.root.winfo_x()+self.size_x
+        n_edge=self.root.winfo_y()
+        s_edge=self.root.winfo_y()+self.size_y
+
+        if w_edge<=x<=e_edge and n_edge<=y<=s_edge:
+            return True
+        else:
+            return False
 
             
     def hide_in_edge(self,event=''):
@@ -475,7 +496,6 @@ class MyApp(object):
                                 self.size_y,
                                     self.root.winfo_screenwidth()-10,
                                         self.root.winfo_y()))
-        self._hiding=True
 
             
     def emerge_from_edge(self,event=''):
@@ -485,7 +505,6 @@ class MyApp(object):
                                 self.size_y,
                                     temp_x,
                                         self.root.winfo_y()))
-
         
     def set_initial_position(self,root):
         scr_x=root.winfo_screenwidth()
