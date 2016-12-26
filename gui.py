@@ -96,7 +96,7 @@ class ConfigDom(object):
         And my soul ASK me: are you kidding me?
         '''
         f = open(self.filename, 'w', encoding='utf-8')
-        self.dom.writexml(f, addindent = '' , newl = '\n' ,encoding = 'utf-8' )
+        self.dom.writexml(f, addindent = '' , newl = '' ,encoding = 'utf-8' )
         f.close()
 
 
